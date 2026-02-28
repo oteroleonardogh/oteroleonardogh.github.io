@@ -20,7 +20,8 @@ import type { ExpressiveCodeTheme } from 'rehype-expressive-code'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  site: 'https://astro-erudite.vercel.app',
+  site: 'https://oteroleonardogh.github.io',
+  base: '/portfolio',
   integrations: [mdx(), react(), sitemap(), icon()],
   vite: {
     plugins: [tailwindcss()],
