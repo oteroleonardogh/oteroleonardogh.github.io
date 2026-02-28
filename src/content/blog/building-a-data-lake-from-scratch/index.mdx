@@ -1,0 +1,80 @@
+---
+title: 'Building a Data Lake from Scratch: From PostgreSQL to S3'
+description: 'How I designed an event-driven data lake architecture to separate operational workloads from historical analysis, with S3 raw/curated zones and a dynamic schema registry.'
+date: '2025-02-20'
+authors: ['leonardo']
+tags: ['Data Engineering', 'AWS', 'PostgreSQL', 'Architecture']
+draft: false
+---
+
+<div style={{textAlign:'center'}}><img src="/static/photos/blog-data-lake.jpg" alt="Data center infrastructure powering cloud storage" style={{maxWidth:'380px',width:'100%',borderRadius:'12px',margin:'0 auto'}} /></div>
+
+## Why a Data Lake?
+
+The platform I was working on processes thousands of real-time events per minute. High-frequency telemetry data (location signals, sensor readings, user interactions) was being written to the same PostgreSQL database serving operational reads. No server-side deduplication. This design made sense early on, but as usage grew, we hit a wall:
+
+- **Cost**: Historical signal data shared the same PostgreSQL workload as product queries
+- **Scale**: Batch processing jobs had an explicit "not sustainable" warning in the code
+- **Traceability**: Answering "what happened and why?" required stitching together logs, cache behavior, and DB state
+
+## The Architecture
+
+I designed a three-layer system:
+
+### 1. Operational DB (PostgreSQL)
+Postgres remains the source of truth for hot operational state:
+- Current entity positions and status
+- Active sessions and interactions
+- Real-time aggregations
+- Small operational summaries (precomputed for fast reads)
+
+### 2. Event Ingestion Layer
+A new `POST /events` endpoint accepts validated event writes:
+- Dynamic schema registry (Postgres-backed, in-memory TTL cache)
+- Each event type has a versioned JSON Schema
+- Payloads are validated before persistence
+- Authentication required, rate-limited
+
+### 3. S3 Data Lake
+Two zones:
+- **Raw zone**: Append-only JSONL.gz files, partitioned by `event_type/dt=YYYY-MM-DD/hr=HH/`
+- **Curated zone**: Derived datasets computed asynchronously (daily rollups, behavioral summaries)
+
+## The Schema Registry
+
+One of the most interesting design decisions was the schema registry. Instead of hardcoding schemas in the API code, we store them in PostgreSQL with versioning per `event_type`. The API loads schemas into an in-memory cache with TTL-based refresh:
+
+```typescript
+// Simplified schema cache
+const schemaCache = new Map<string, { schema: JSONSchema; expiresAt: number }>()
+
+async function getSchema(eventType: string): Promise<JSONSchema> {
+  const cached = schemaCache.get(eventType)
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.schema
+  }
+  const schema = await db.query(
+    'SELECT schema FROM event_schemas WHERE event_type = $1 AND active = true',
+    [eventType]
+  )
+  schemaCache.set(eventType, {
+    schema: schema.rows[0].schema,
+    expiresAt: Date.now() + TTL,
+  })
+  return schema.rows[0].schema
+}
+```
+
+This means we can add new event types without redeploying the API. We just insert a new schema row and the next TTL refresh picks it up.
+
+## Lessons Learned
+
+**Start with in-process buffering.** We considered SQS between the API and S3 writer, but for the current volume, an in-process buffer with periodic flush is simpler and sufficient. You can add SQS later when volume justifies it.
+
+**Partition by time, not by entity.** We initially considered an entity-based partitioning scheme, but time-based partitions (`dt=YYYY-MM-DD/hr=HH`) are simpler to manage and work well with lifecycle policies.
+
+**Schema validation is a security control.** Without it, any authenticated client could write arbitrary JSON to the data lake. The schema registry prevents abuse while still allowing fast iteration on new event types.
+
+## What's Next
+
+With the raw zone operational, the next phase is building curated datasets: daily activity rollups, behavioral pattern computation, and operational summaries. These are computed by scheduled workers and stored back in Postgres as small precomputed views, keeping product queries fast while the heavy historical data lives cheaply in S3.

@@ -43,27 +43,30 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  /* Warm ivory base with subtle warmth */
+  --background: oklch(0.985 0.005 80);
+  --foreground: oklch(0.2 0.02 250);
+  --primary: oklch(0.25 0.03 250);
+  --primary-foreground: oklch(0.98 0.005 80);
+  --muted: oklch(0.94 0.01 80);
+  --muted-foreground: oklch(0.4 0.02 250);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.82 0.015 80);
+  --ring: oklch(0.55 0.03 250);
 }
 
 [data-theme='dark'] {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  /* Brighter ocean blue base */
+  --background: oklch(0.22 0.04 240);
+  --foreground: oklch(0.93 0.01 200);
+  --primary: oklch(0.85 0.02 200);
+  --primary-foreground: oklch(0.22 0.04 240);
+  /* Muted with green-teal terminal tint */
+  --muted: oklch(0.28 0.035 220);
+  --muted-foreground: oklch(0.68 0.04 180);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(0.38 0.04 210 / 45%);
+  --ring: oklch(0.55 0.05 200);
 }
 
 @layer base {
@@ -73,5 +76,25 @@
   ::backdrop,
   ::file-selector-button {
     @apply border-border outline-ring/50 tracking-tight;
+  }
+
+  body {
+    background: linear-gradient(
+      180deg,
+      oklch(0.985 0.005 80) 0%,
+      oklch(0.97 0.008 60) 50%,
+      oklch(0.96 0.01 45) 100%
+    );
+    background-attachment: fixed;
+  }
+
+  [data-theme='dark'] body {
+    background: linear-gradient(
+      135deg,
+      oklch(0.22 0.04 240) 0%,
+      oklch(0.20 0.035 210) 50%,
+      oklch(0.19 0.04 160) 100%
+    );
+    background-attachment: fixed;
   }
 }

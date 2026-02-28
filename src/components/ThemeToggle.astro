@@ -1,19 +1,113 @@
 ---
-import { Button } from '@/components/ui/button'
-import { Icon } from 'astro-icon/components'
 ---
 
-<Button
-  id="theme-toggle"
-  variant="ghost"
-  size="icon"
-  title="Toggle theme"
-  className="-my-2 -me-2 size-8"
->
-  <Icon name="lucide:sun" class="size-4 dark:hidden" />
-  <Icon name="lucide:moon" class="absolute hidden size-4 dark:block" />
-  <span class="sr-only">Toggle theme</span>
-</Button>
+<div class="theme-toggle-wrapper">
+  <button
+    id="theme-toggle"
+    class="theme-toggle"
+    title="Toggle theme"
+    aria-label="Toggle theme"
+  >
+    <span class="toggle-track">
+      <span class="toggle-icon toggle-sun">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </span>
+      <span class="toggle-icon toggle-moon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </span>
+      <span class="toggle-thumb" />
+    </span>
+  </button>
+</div>
+
+<style>
+  .theme-toggle-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .theme-toggle {
+    position: relative;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .theme-toggle:focus-visible .toggle-track {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .toggle-track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 56px;
+    height: 28px;
+    border-radius: 14px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+  }
+
+  :global([data-theme='dark']) .toggle-thumb {
+    transform: translateX(28px);
+    background: oklch(0.75 0.04 200);
+  }
+
+  .toggle-icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    transition: color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .toggle-sun {
+    color: oklch(0.65 0.12 70);
+  }
+
+  :global([data-theme='dark']) .toggle-sun {
+    color: oklch(0.5 0.04 200);
+  }
+
+  .toggle-moon {
+    color: oklch(0.5 0 0);
+  }
+
+  :global([data-theme='dark']) .toggle-moon {
+    color: oklch(0.9 0.02 200);
+  }
+</style>
 
 <script is:inline data-astro-rerun>
   ;(() => {
@@ -36,14 +130,7 @@ import { Icon } from 'astro-icon/components'
     const currentTheme = element.getAttribute('data-theme')
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
-    element.classList.add('[&_*]:transition-none')
     element.setAttribute('data-theme', newTheme)
-    window.getComputedStyle(element).getPropertyValue('opacity')
-
-    requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
-    })
-
     localStorage.setItem('theme', newTheme)
   }
 
@@ -58,15 +145,7 @@ import { Icon } from 'astro-icon/components'
   document.addEventListener('astro:after-swap', () => {
     const storedTheme = localStorage.getItem('theme') || 'light'
     const element = document.documentElement
-
-    element.classList.add('[&_*]:transition-none')
-    window.getComputedStyle(element).getPropertyValue('opacity')
     element.setAttribute('data-theme', storedTheme)
-
-    requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
-    })
-
     initThemeToggle()
   })
 </script>

@@ -1,0 +1,76 @@
+---
+title: 'How I Built 19 AI Skills That Changed My Development Workflow'
+description: 'A practical walkthrough of how custom AI skills transformed my daily engineering workflow, from ticket analysis to production deployments.'
+date: '2025-02-15'
+authors: ['leonardo']
+tags: ['AI', 'Claude Code', 'Developer Tools', 'Automation']
+draft: false
+---
+
+<div style={{textAlign:'center'}}><img src="/static/photos/blog-ai-skills.png" alt="AI-augmented architecture: Plan, Build, Ship workflow" style={{maxWidth:'480px',width:'100%',borderRadius:'12px',margin:'0 auto'}} /></div>
+
+## The Problem
+
+As a senior engineer building a complex real-time platform, I found myself spending hours on repetitive tasks: creating pull requests, writing release notes, analyzing tickets, reviewing code, and generating documentation. Each task individually wasn't time-consuming, but together they ate into the hours I should have been spending on architecture and problem-solving.
+
+## The Solution: Custom AI Skills
+
+I built a structured system of AI skills for Claude Code. Not prompts, not snippets. Full workflow definitions with safety gates, confirmation steps, and team-ready outputs. Each skill is a markdown file that defines:
+
+- **Inputs** to collect (ticket IDs, branch names, URLs)
+- **Workflow steps** with explicit checkpoints
+- **Output format** (PR descriptions, release notes, documentation)
+- **Safety gates** (confirmation before destructive actions)
+
+## A Day in the Life
+
+Here's what a typical feature delivery looks like with AI skills:
+
+**Morning: Planning.**
+I start with the ticket analysis skill. It reads the issue tracker, extracts requirements, identifies acceptance criteria, and flags ambiguities I should clarify with the product team. Then the planning skill generates a phased execution plan by cross-referencing the requirements with the actual codebase.
+
+**Afternoon: Building.**
+I work through the plan, writing code with AI assistance. When I'm ready, the PR skill creates a pull request with a structured description that links to the ticket, summarizes changes, and includes a test checklist. The review skill then analyzes the diff for bugs, regressions, and security issues.
+
+**End of day: Shipping.**
+The release skill handles changelog generation, version management, and deployment coordination. The documentation skill produces technical docs with architecture diagrams.
+
+## The 19 Skills
+
+Grouped by workflow phase:
+
+**Research and Planning** (4 skills): Issue analysis, wiki parsing, production error analysis with root cause identification, and phased plan generation from requirements plus codebase context.
+
+**Development and Review** (6 skills): Plan execution with validation checkpoints, PR creation with auto-generated descriptions, PR updates, structured code reviews, GitHub comment posting, and branch management with safety checks.
+
+**Release and Documentation** (4 skills): Full release orchestration, release status tracking, push with safety validation (no force push to protected branches, hook verification), and technical documentation with diagrams.
+
+**Operations and Maintenance** (5 skills): Context-aware merge conflict resolution, post-resolution validation, persistent memory across sessions, feature branch deployment, and cross-session context sharing.
+
+## Real Impact
+
+Before these skills, a typical feature delivery cycle looked like:
+
+1. Read ticket manually (10-15 min)
+2. Plan implementation (30-60 min)
+3. Code (hours to days)
+4. Write tests (hours)
+5. Create PR with description (15-20 min)
+6. Address review feedback (30-60 min)
+7. Merge and create release notes (20-30 min)
+
+Now, steps 1, 2, 5, 6, and 7 are handled by AI skills. The total time saved per feature is roughly 2-3 hours, and the quality of outputs (PR descriptions, release notes, documentation) is more consistent than anything I wrote manually.
+
+## Key Design Decisions
+
+**Confirmation gates everywhere.** No skill pushes code, creates PRs, or deploys without explicit confirmation. This is critical for trust.
+
+**Memory across sessions.** A dedicated memory skill maintains a persistent context log that carries information across conversations. When I start a new session, the AI already knows which tickets I'm working on, what branches exist, and what was decided previously.
+
+**Team-ready outputs.** All generated content (PR descriptions, release notes, documentation) follows team conventions and includes relevant diagrams. My team doesn't need to know that AI helped. They just see consistently well-structured output.
+
+## What's Next
+
+I'm now researching how to share these skills across the team. The goal is to make every engineer 2-3x more productive, not by replacing their judgment, but by handling the mechanical parts of software delivery.
+
+The fundamental insight: 20+ years of experience doesn't just mean you code faster. It means you know which decisions matter and which can be safely delegated. AI excels at the latter. Your job is to focus on the former.

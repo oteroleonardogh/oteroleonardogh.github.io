@@ -7,6 +7,15 @@ import Layout from '@/layouts/Layout.astro'
 import { getAllProjects } from '@/lib/data-utils'
 
 const projects = await getAllProjects()
+
+const techStack = [
+  { category: 'Languages', items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'Go', 'Ruby', 'C#', 'Bash'] },
+  { category: 'Frontend', items: ['React', 'Vue.js', 'Next.js', 'Nuxt', 'Astro', 'React Native', 'Tailwind CSS'] },
+  { category: 'Backend', items: ['Node.js', 'Express', 'NestJS', 'FastAPI', 'Spring Boot'] },
+  { category: 'Databases', items: ['PostgreSQL', 'PostGIS', 'pgvector', 'MongoDB', 'Snowflake', 'DynamoDB', 'Cassandra', 'Redis', 'MySQL', 'Elasticsearch'] },
+  { category: 'Cloud & Infra', items: ['AWS', 'GCP', 'Azure', 'Kubernetes', 'Docker', 'Terraform', 'Serverless', 'Cloud66', 'ECS'] },
+  { category: 'AI & Tooling', items: ['Claude Code', 'OpenAI Codex', 'LLM Integration', 'Sentry', 'k6', 'Jest', 'Swagger'] },
+]
 ---
 
 <Layout class="max-w-3xl">
@@ -14,34 +23,145 @@ const projects = await getAllProjects()
   <Breadcrumbs items={[{ label: 'About', icon: 'lucide:info' }]} />
 
   <section>
-    <div class="min-w-full">
-      <div class="prose mb-8">
-        <p class="mt-0">
-          astro-erudite is an opinionated, unstyled static blogging template
-          that prioritizes simplicity and performance, built with <Link
-            href="https://astro.build"
-            external
-            underline>Astro</Link
-          >, <Link href="https://tailwindcss.com" external underline
-            >Tailwind</Link
-          >, and <Link href="https://ui.shadcn.com" external underline
-            >shadcn/ui</Link
-          >. It provides a clean foundation for your content while being
-          extremely easy to customize.
-        </p>
-        <p>
-          To learn more about the philosophy behind this template, check out the
-          following blog post: <Link
-            href="/blog/the-state-of-static-blogs"
-            underline>The State of Static Blogs in 2024</Link
-          >.
+    <!-- Profile header -->
+    <div class="mb-8 flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+      <img
+        src="/static/photos/profile.png"
+        alt="Leonardo Otero"
+        class="h-40 w-40 shrink-0 rounded-full border-2 border-border object-cover object-top shadow-md sm:h-44 sm:w-44"
+      />
+      <div>
+        <h1 class="mb-2 text-3xl font-bold">About me</h1>
+        <p class="text-muted-foreground">
+          I'm a software architect and hands-on engineer with over two decades of experience
+          designing and delivering production systems across industries and continents. From
+          fintech investment platforms and real estate solutions to early-stage startups and
+          enterprise systems, I've built frontends with React and Vue.js, backends with Node.js
+          and Python, cloud infrastructure on AWS and Kubernetes, and data pipelines that serve
+          millions of users.
         </p>
       </div>
+    </div>
 
-      <h2 class="mb-4 text-2xl font-medium">Example Projects Listing</h2>
-      <div class="flex flex-col gap-4">
-        {projects.map((project) => <ProjectCard project={project} />)}
+    <div class="prose mb-8">
+
+      <h2>AI-augmented development</h2>
+
+      <p>
+        My workflow is fully integrated with AI tools like Claude Code and Codex. I've built 19
+        custom AI development skills that transform how my team ships code: automating PR workflows,
+        generating technical documentation with Mermaid diagrams, managing releases, reviewing code,
+        and reading Jira tickets, Confluence pages, and Sentry issues with a single command.
+      </p>
+
+      <p>
+        My 20+ years of experience allow me to move fast with AI while ensuring every technical
+        decision stays aligned with the business needs of my clients. Features that once took teams
+        months now ship in days, without sacrificing quality.
+      </p>
+
+      <h2>Fintech & Real Estate</h2>
+
+      <p>
+        I've designed and delivered investment platforms handling real-time market data, portfolio
+        management, and regulatory compliance. On the real estate side, I've built property
+        valuation engines, listing platforms, and transaction pipelines. These domains demand
+        precision, security, and performance at scale, all areas where my architecture experience
+        pays off.
+      </p>
+
+      <h2>Data Science & Location Intelligence</h2>
+
+      <p>
+        I collaborate on Data Science models for a real-time social platform, design data lake
+        architectures with S3, and craft location intelligence pipelines that enrich geospatial
+        data with OpenStreetMap and Google Places. My work spans from DBSCAN clustering algorithms
+        to vector search with pgvector.
+      </p>
+
+      <h2>Philosophy</h2>
+
+      <p>
+        I don't just adopt AI tools. I build them. I research how to improve my team's development
+        process, then create robust, consistent AI capabilities that multiply what we can deliver.
+        The goal isn't replacing developers. It's giving every engineer the leverage of an entire
+        team.
+      </p>
+
+      <h2>Beyond software</h2>
+
+      <p>
+        I'm also researching AI-controlled hydroponics and microgreens cultivation. Using sensors,
+        microcontrollers, and machine learning models to optimize growing conditions: light cycles,
+        nutrient concentration, temperature, and humidity. It's the same engineering mindset applied
+        to a completely different domain, and a reminder that good architecture is universal.
+      </p>
+    </div>
+
+    <!-- Hydroponics section placeholder - add photo when available -->
+
+    <div class="prose mb-8">
+      <h2>Off the keyboard</h2>
+
+      <p>
+        When I'm not building software (or growing microgreens), I ride my motorcycle through the
+        roads of Argentina. Mountain passes in Cordoba, endless Patagonian highways, dirt trails
+        through sierras. There's something about the open road that resets your perspective, the
+        same way stepping back from a codebase reveals the architecture you couldn't see up close.
+      </p>
+    </div>
+
+    <!-- Motorcycle photos -->
+    <div class="mb-8 grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div class="overflow-hidden rounded-lg border">
+        <img
+          src="/static/photos/moto-mountain.jpg"
+          alt="Leonardo riding through mountain passes in Argentina"
+          class="h-48 w-full object-cover md:h-56"
+        />
       </div>
+      <div class="overflow-hidden rounded-lg border">
+        <img
+          src="/static/photos/moto-riding.jpg"
+          alt="Leonardo riding with friends through Argentine roads"
+          class="h-48 w-full object-cover md:h-56"
+        />
+      </div>
+      <div class="overflow-hidden rounded-lg border md:col-span-2">
+        <img
+          src="/static/photos/moto-sierras.jpg"
+          alt="Riding through the sierras of Cordoba at sunset"
+          class="h-48 w-full object-cover md:h-64"
+        />
+        <div class="bg-muted/30 px-4 py-2 text-xs text-muted-foreground">
+          Sierras de Cordoba, Argentina
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <h2 class="mb-4 text-2xl font-medium">Tech stack</h2>
+    <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+      {techStack.map((group) => (
+        <div class="rounded-lg border p-4">
+          <h3 class="mb-2 text-sm font-medium uppercase tracking-widest text-muted-foreground">
+            {group.category}
+          </h3>
+          <div class="flex flex-wrap gap-1.5">
+            {group.items.map((item) => (
+              <span class="rounded-md border bg-muted/50 px-2 py-0.5 text-xs">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Projects -->
+    <h2 class="mb-4 text-2xl font-medium">Projects</h2>
+    <div class="flex flex-col gap-4">
+      {projects.map((project) => <ProjectCard project={project} />)}
     </div>
   </section>
 </Layout>

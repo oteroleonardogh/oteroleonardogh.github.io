@@ -1,0 +1,88 @@
+---
+title: 'From Months to Days: Why 20 Years of Experience Makes AI Development Faster'
+description: 'AI tools generate code fast, but building the right system requires decades of architectural judgment. Here is how experience turns AI from a toy into a multiplier.'
+date: '2025-02-28'
+authors: ['leonardo']
+tags: ['AI', 'Software Architecture', 'Career', 'Engineering', 'Productivity']
+draft: false
+---
+
+<div style={{textAlign:'center'}}><img src="/static/photos/blog-experience-speed.jpg" alt="Chess pieces representing strategic thinking amplified by experience" style={{maxWidth:'380px',width:'100%',borderRadius:'12px',margin:'0 auto'}} /></div>
+
+## Everyone Gets the Speed. Few Get the Direction.
+
+Last year I fully integrated AI into my daily engineering workflow: Claude Code for architecture, Codex for implementation, custom skills for documentation and deployment. My output tripled. But here's what nobody talks about: the developers who benefit most from AI are not the ones who need it most. They're the ones who already know what to build.
+
+The narrative that AI will flatten the experience gap is backwards. It widens it.
+
+## Speed Without Direction Is Waste
+
+AI can generate code at incredible speed. But generating the *right* code requires understanding:
+
+- **Business context**: Why does this feature exist? What user problem does it solve?
+- **System constraints**: What are the performance requirements? What's the failure mode?
+- **Architectural coherence**: Does this change fit existing patterns, or does it introduce technical debt?
+- **Operational reality**: How will this behave at 3 AM when the on-call engineer gets paged?
+
+None of these answers come from the code itself. They come from experience.
+
+## Problem, Architecture, AI, Review
+
+Recently, I designed a data lake architecture for a real-time mobile platform. The AI-assisted workflow followed a clear pattern:
+
+1. **I defined the architecture** (S3 raw/curated zones, event outbox, schema registry)
+2. **AI generated the implementation** (migrations, services, controllers, tests)
+3. **I reviewed and corrected** (caught a schema validation gap, fixed a partition key design)
+4. **AI wrote the documentation** (Mermaid diagrams, runbooks, API specs)
+
+Total time: 3 weeks for a system that would have taken 8 to 12 weeks with traditional development.
+
+But without my architectural decisions in step 1 and my review in step 3, the AI would have built something that technically worked but didn't align with our operational reality. It would have used the wrong partitioning strategy, missed the GDPR retention requirements, and over-engineered the schema validation.
+
+> The AI did the heavy lifting. Experience kept it on the rails.
+
+| Phase | Traditional | AI-Augmented |
+|-------|------------|--------------|
+| Architecture & design | 2 weeks | 2 weeks (no shortcut) |
+| Implementation | 4-6 weeks | 1 week |
+| Testing | 1-2 weeks | 3 days |
+| Documentation | 1 week | 2 days |
+| **Total** | **8-12 weeks** | **~3 weeks** |
+
+The architecture phase stays the same. That's the point. You can't accelerate judgment.
+
+## What Experience Actually Provides
+
+After 20+ years of shipping software, here's what I bring that AI cannot:
+
+**Pattern recognition across decades.** I've seen event sourcing systems fail because of schema evolution problems. I've seen data lakes become data swamps. I've seen cron jobs that "work fine" until they don't. This pattern library lets me avoid known failure modes before they happen.
+
+**Stakeholder translation.** When a product manager says "we need smarter notifications," I know they don't mean a recommendation engine. They mean the right message, at the right time, to the right user. Translating business intent into technical requirements is a skill that comes from years of getting it wrong.
+
+**Taste.** Knowing when to stop. Knowing when a solution is "good enough." Knowing when to push back on a requirement. Knowing when simplicity beats elegance. AI will happily generate infinitely complex solutions. Knowing which complexity is necessary requires judgment.
+
+## The Multiplier Effect
+
+The most powerful use of AI is not as a replacement for experience. It's an amplifier:
+
+- **Architecture and design**: Me (100%)
+- **Implementation**: AI generates 80%, I guide and review
+- **Testing**: AI generates 90%, I validate the test scenarios
+- **Documentation**: AI generates 95%, I verify accuracy
+- **Deployment and ops**: Shared, with AI handling runbooks and scripts
+
+This isn't AI doing my job. This is AI handling the mechanical parts, freeing me to focus on the decisions that actually require judgment.
+
+## The Bottom Line
+
+If you're a junior developer, AI is an incredible learning tool. If you're a senior engineer, AI is an incredible productivity multiplier. But the value you provide hasn't changed: the ability to make the right decisions fast, to see problems before they happen, and to keep technical work aligned with business goals.
+
+That's not something you can prompt your way into. That takes 20 years.
+
+## Key Takeaways
+
+- **AI widens the experience gap.** Senior engineers benefit more from AI than juniors because they know what to build, not just how to generate code.
+- **Architecture is the bottleneck, not implementation.** AI handles the mechanical 80%. The remaining 20% (design, review, judgment) is where decades of experience pay off.
+- **3 weeks instead of 12.** Real-world AI-augmented projects deliver 3-4x faster when guided by an experienced architect.
+- **Pattern recognition can't be prompted.** Shipping software for 20 years builds a failure-mode library that no LLM can replicate.
+- **AI is a multiplier, not a replacement.** The right workflow: you design, AI implements, you review. Skip the first or last step and quality collapses.

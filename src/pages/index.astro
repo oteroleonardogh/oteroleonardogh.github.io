@@ -2,65 +2,404 @@
 import BlogCard from '@/components/BlogCard.astro'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
 import { buttonVariants } from '@/components/ui/button'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
-import { getRecentPosts } from '@/lib/data-utils'
+import AiProfileAnalysis from '@/components/AiProfileAnalysis'
+import CostCalculatorDemo from '@/components/CostCalculatorDemo'
+import InteractiveCodeEditor from '@/components/InteractiveCodeEditor'
+import K6Dashboard from '@/components/K6Dashboard'
+import TradingRobot from '@/components/TradingRobot'
+import { getRecentPosts, getAllProjects } from '@/lib/data-utils'
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
+const projects = await getAllProjects()
 ---
 
-<Layout class="max-w-3xl">
+<Layout class="max-w-4xl gap-y-10">
   <PageHead slot="head" title="Home" />
-  <section class="rounded-lg border">
-    <div class="flex flex-col space-y-1.5 p-6">
-      <h3 class="text-3xl leading-none font-medium">er·u·dite</h3>
-      <p class="text-muted-foreground text-sm">
-        /ˈer(y)əˌdīt/ &bull; <span class="font-medium">adjective</span>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden rounded-lg border bg-gradient-to-br from-background via-background to-muted/30 p-8 md:p-12">
+    <div class="relative z-10">
+      <div class="mb-6 flex flex-col gap-6 sm:flex-row sm:items-center">
+        <img
+          src="/static/photos/profile.png"
+          alt="Leonardo Otero"
+          class="h-40 w-40 shrink-0 rounded-full border-2 border-border/50 object-cover object-top shadow-lg sm:h-44 sm:w-44"
+        />
+        <div>
+          <a
+            href="mailto:oteroleonardo@gmail.com?subject=Let%27s%20Build%20Something%20Together&body=Hi%2C%20Leo.%0A%0A"
+            class="group mb-3 inline-flex items-center gap-2 rounded-full border border-border/50 bg-muted/50 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-green-500/40 hover:bg-green-500/10 hover:text-foreground"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            Available for consulting & collaboration
+            <span class="text-muted-foreground/50 transition-transform group-hover:translate-x-0.5">&rarr;</span>
+          </a>
+          <div class="mb-2 flex items-center gap-3">
+            <h1 class="text-4xl font-bold tracking-tight md:text-5xl">
+              Leonardo Otero
+            </h1>
+            <AiProfileAnalysis client:idle />
+          </div>
+          <p class="max-w-2xl text-lg text-muted-foreground">
+            Software Architect with 20+ years of experience building production systems
+            across fintech investment platforms, real estate solutions, and social apps.
+            I build AI-augmented workflows that compress months of engineering into days.
+          </p>
+        </div>
+      </div>
+
+      <!-- Terminal Preview -->
+      <div class="mb-6 overflow-hidden rounded-lg border bg-[#0d1117] font-mono text-sm">
+        <div class="flex items-center gap-2 border-b border-white/10 bg-white/5 px-4 py-2">
+          <span class="h-3 w-3 rounded-full bg-[#ff5f57]"></span>
+          <span class="h-3 w-3 rounded-full bg-[#febc2e]"></span>
+          <span class="h-3 w-3 rounded-full bg-[#28c840]"></span>
+          <span class="ml-2 text-xs text-white/40">claude-code + codex ~ let's build the next killer app together</span>
+        </div>
+        <div class="space-y-1 p-4 text-[10px] md:text-xs">
+          <div><span class="text-green-400">leonardo@dev</span><span class="text-white/60">:</span><span class="text-cyan-400">~/killer-app</span><span class="text-white/60">$</span> <span class="text-amber-400">/generate-working-plan</span> <span class="text-white/40">--epic DEV-826 --read-confluence --read-codebase</span></div>
+          <div class="text-cyan-300">🧠 Working plan generated: 10 tasks, 4 phases, estimated 15 days with AI</div>
+          <div><span class="text-green-400">leonardo@dev</span><span class="text-white/60">:</span><span class="text-cyan-400">~/killer-app</span><span class="text-white/60">$</span> <span class="text-amber-400">/execute-working-plan</span> <span class="text-white/40">--agent codex --review claude-code</span></div>
+          <div class="text-cyan-300">🚀 Phase 1 complete: 3 PRs merged, 47 tests passing, 0 regressions</div>
+          <div><span class="text-green-400">leonardo@dev</span><span class="text-white/60">:</span><span class="text-cyan-400">~/killer-app</span><span class="text-white/60">$</span> <span class="text-amber-400">/create-release</span> <span class="text-white/40">--env prod --notify slack</span></div>
+          <div class="text-cyan-300">🎉 v2.14.0 shipped to production. 8 tickets delivered in 3 days.</div>
+          <div><span class="text-green-400">leonardo@dev</span><span class="text-white/60">:</span><span class="text-cyan-400">~/killer-app</span><span class="text-white/60">$</span> <span class="text-white/40 animate-pulse">_</span></div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://www.linkedin.com/in/leonardootero/" target="_blank" rel="noopener" class={buttonVariants({ variant: 'default' })}>
+          LinkedIn &rarr;
+        </a>
+        <a href="https://github.com/oteroleonardogh" target="_blank" rel="noopener" class={buttonVariants({ variant: 'outline' })}>
+          GitHub
+        </a>
+        <a href="/about" class={buttonVariants({ variant: 'ghost' })}>
+          About me
+        </a>
+      </div>
+
+      <!-- Section navigation pills -->
+      <nav class="mt-6 flex flex-wrap items-center gap-2 border-t border-border/30 pt-4" aria-label="Jump to section">
+        <span class="mr-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">Jump to</span>
+        <a href="#demos" class="nav-pill group relative rounded-full bg-indigo-500/15 border border-indigo-500/30 px-3.5 py-1 font-mono text-xs font-bold text-indigo-400 transition-all hover:bg-indigo-500/25 hover:border-indigo-500/50 hover:scale-105 active:scale-95">
+          <span class="absolute -right-1 -top-1 flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-50"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-indigo-500"></span></span>
+          DEMOS
+        </a>
+        <a href="#ai-architecture" class="nav-pill rounded-full border border-border/50 bg-muted/30 px-3 py-1 font-mono text-[11px] text-muted-foreground transition-all hover:bg-muted/60 hover:text-foreground hover:scale-105 active:scale-95">Architecture</a>
+        <a href="#location" class="nav-pill rounded-full border border-border/50 bg-muted/30 px-3 py-1 font-mono text-[11px] text-muted-foreground transition-all hover:bg-muted/60 hover:text-foreground hover:scale-105 active:scale-95">Location</a>
+        <a href="#blog" class="nav-pill rounded-full border border-border/50 bg-muted/30 px-3 py-1 font-mono text-[11px] text-muted-foreground transition-all hover:bg-muted/60 hover:text-foreground hover:scale-105 active:scale-95">Blog</a>
+        <a href="#projects" class="nav-pill rounded-full border border-border/50 bg-muted/30 px-3 py-1 font-mono text-[11px] text-muted-foreground transition-all hover:bg-muted/60 hover:text-foreground hover:scale-105 active:scale-95">Projects</a>
+      </nav>
+    </div>
+
+    <!-- Subtle Architecture SVG Background -->
+    <svg class="pointer-events-none absolute right-0 top-0 h-full w-1/2 opacity-[0.03] dark:opacity-[0.06]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- AWS-style architecture diagram -->
+      <rect x="50" y="30" width="80" height="50" rx="8" stroke="currentColor" stroke-width="1.5"/>
+      <text x="90" y="60" text-anchor="middle" fill="currentColor" font-size="8" font-family="monospace">API</text>
+      <rect x="170" y="30" width="80" height="50" rx="8" stroke="currentColor" stroke-width="1.5"/>
+      <text x="210" y="60" text-anchor="middle" fill="currentColor" font-size="8" font-family="monospace">Worker</text>
+      <rect x="290" y="30" width="80" height="50" rx="8" stroke="currentColor" stroke-width="1.5"/>
+      <text x="330" y="60" text-anchor="middle" fill="currentColor" font-size="8" font-family="monospace">S3</text>
+      <line x1="130" y1="55" x2="170" y2="55" stroke="currentColor" stroke-width="1" stroke-dasharray="4"/>
+      <line x1="250" y1="55" x2="290" y2="55" stroke="currentColor" stroke-width="1" stroke-dasharray="4"/>
+      <!-- DB Layer -->
+      <ellipse cx="90" cy="140" rx="40" ry="20" stroke="currentColor" stroke-width="1.5"/>
+      <text x="90" y="144" text-anchor="middle" fill="currentColor" font-size="7" font-family="monospace">PostgreSQL</text>
+      <ellipse cx="210" cy="140" rx="40" ry="20" stroke="currentColor" stroke-width="1.5"/>
+      <text x="210" y="144" text-anchor="middle" fill="currentColor" font-size="7" font-family="monospace">Redis</text>
+      <ellipse cx="330" cy="140" rx="40" ry="20" stroke="currentColor" stroke-width="1.5"/>
+      <text x="330" y="144" text-anchor="middle" fill="currentColor" font-size="7" font-family="monospace">Data Lake</text>
+      <line x1="90" y1="80" x2="90" y2="120" stroke="currentColor" stroke-width="1" stroke-dasharray="4"/>
+      <line x1="210" y1="80" x2="210" y2="120" stroke="currentColor" stroke-width="1" stroke-dasharray="4"/>
+      <line x1="330" y1="80" x2="330" y2="120" stroke="currentColor" stroke-width="1" stroke-dasharray="4"/>
+      <!-- Orchestration -->
+      <rect x="120" y="200" width="160" height="40" rx="8" stroke="currentColor" stroke-width="1.5"/>
+      <text x="200" y="224" text-anchor="middle" fill="currentColor" font-size="7" font-family="monospace">Temporal Orchestration</text>
+      <line x1="200" y1="160" x2="200" y2="200" stroke="currentColor" stroke-width="1" stroke-dasharray="4"/>
+      <!-- K8s -->
+      <rect x="80" y="280" width="240" height="60" rx="12" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6"/>
+      <text x="200" y="305" text-anchor="middle" fill="currentColor" font-size="7" font-family="monospace">Kubernetes Cluster</text>
+      <rect x="100" y="315" width="50" height="18" rx="4" stroke="currentColor" stroke-width="1"/>
+      <text x="125" y="328" text-anchor="middle" fill="currentColor" font-size="6" font-family="monospace">Pod</text>
+      <rect x="165" y="315" width="50" height="18" rx="4" stroke="currentColor" stroke-width="1"/>
+      <text x="190" y="328" text-anchor="middle" fill="currentColor" font-size="6" font-family="monospace">Pod</text>
+      <rect x="230" y="315" width="50" height="18" rx="4" stroke="currentColor" stroke-width="1"/>
+      <text x="255" y="328" text-anchor="middle" fill="currentColor" font-size="6" font-family="monospace">Pod</text>
+      <line x1="200" y1="240" x2="200" y2="280" stroke="currentColor" stroke-width="1" stroke-dasharray="4"/>
+    </svg>
+  </section>
+
+  <!-- Trading Robot Demo -->
+  <section id="demos" class="section-focal flex flex-col gap-y-4 scroll-mt-20">
+    <div>
+      <div class="group/link flex items-center gap-2">
+        <h2 class="text-2xl font-medium">Algorithmic trading simulator</h2>
+        <button class="permalink-copy flex items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400" data-section="demos" title="Copy link" aria-label="Copy section link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+      <p class="text-sm text-muted-foreground">Live trading bot simulation with real-time order execution, portfolio management, and controllable parameters. Hit the PANIC button to trigger an emergency reallocation into safe-haven assets (gold, treasury bonds).</p>
+    </div>
+    <TradingRobot client:visible />
+  </section>
+
+  <!-- AI-Augmented Development -->
+  <section id="ai-architecture" class="section-focal flex flex-col gap-y-6 scroll-mt-20">
+    <div>
+      <div class="group/link flex items-center gap-2">
+        <h2 class="text-2xl font-medium">AI-augmented architecture</h2>
+        <button class="permalink-copy flex items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400" data-section="ai-architecture" title="Copy link" aria-label="Copy section link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+      <p class="text-sm text-muted-foreground">
+        19 custom AI skills powered by Claude Code and Codex that automate the entire development lifecycle. From ticket to production, every step is orchestrated.
       </p>
     </div>
-    <div class="p-6 pt-0">
-      <p class="text-muted-foreground mb-2 text-sm">
-        astro-erudite is an opinionated, unstyled static blogging template built
-        with <Link
-          href="https://astro.build"
-          class="text-foreground"
-          external
-          underline>Astro</Link
-        >, <Link
-          href="https://tailwindcss.com"
-          class="text-foreground"
-          external
-          underline>Tailwind</Link
-        >, and <Link
-          href="https://ui.shadcn.com"
-          class="text-foreground"
-          external
-          underline>shadcn/ui</Link
-        >. Extraordinarily loosely based on the <Link
-          href="https://astro-micro.vercel.app/"
-          class="text-foreground"
-          external
-          underline>Astro Micro</Link
-        > theme.
-      </p>
-      <p class="text-muted-foreground text-sm">
-        To use this template, check out the <Link
-          href="https://github.com/jktrn/astro-erudite"
-          class="text-foreground"
-          underline
-          external>GitHub</Link
-        > repository. To learn more about why this template exists, read this blog
-        post: <Link
-          href="/blog/the-state-of-static-blogs"
-          class="text-foreground"
-          underline>The State of Static Blogs in 2024</Link
-        >.
-      </p>
+
+    <!-- Workflow Pipeline -->
+    <div class="relative overflow-hidden rounded-lg border border-slate-700/30 bg-slate-800 p-6 shadow-md dark:border-transparent dark:bg-gradient-to-br dark:from-muted/30 dark:to-background dark:shadow-none">
+      <div class="grid gap-4 md:grid-cols-3">
+        <!-- Plan -->
+        <div class="group relative rounded-lg border border-slate-600/30 bg-slate-700/40 p-4 transition-colors hover:border-indigo-400/40 hover:bg-slate-700/60 dark:border-border/50 dark:bg-background/80 dark:hover:border-indigo-500/30 dark:hover:bg-indigo-500/5">
+          <div class="mb-3 flex items-center gap-2">
+            <div class="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-500/20 font-mono text-sm font-bold text-indigo-400 dark:bg-indigo-500/10 dark:text-indigo-500">01</div>
+            <span class="font-mono text-xs font-medium text-slate-300 dark:text-muted-foreground">PLAN</span>
+          </div>
+          <div class="space-y-2 font-mono text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/read-ticket</span>
+              <span class="text-slate-400 dark:text-foreground/40">DEV-826</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/read-confluence</span>
+              <span class="text-slate-400 dark:text-foreground/40">architecture</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/generate-working-plan</span>
+            </div>
+          </div>
+          <div class="mt-3 text-xs text-slate-400 dark:text-muted-foreground/60">
+            Claude Code reads tickets, docs, and codebase to generate a precise execution plan
+          </div>
+        </div>
+
+        <!-- Build -->
+        <div class="group relative rounded-lg border border-slate-600/30 bg-slate-700/40 p-4 transition-colors hover:border-cyan-400/40 hover:bg-slate-700/60 dark:border-border/50 dark:bg-background/80 dark:hover:border-cyan-500/30 dark:hover:bg-cyan-500/5">
+          <div class="mb-3 flex items-center gap-2">
+            <div class="flex h-8 w-8 items-center justify-center rounded-md bg-cyan-500/20 font-mono text-sm font-bold text-cyan-400 dark:bg-cyan-500/10 dark:text-cyan-500">02</div>
+            <span class="font-mono text-xs font-medium text-slate-300 dark:text-muted-foreground">BUILD</span>
+          </div>
+          <div class="space-y-2 font-mono text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/execute-working-plan</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/create-pr</span>
+              <span class="text-slate-400 dark:text-foreground/40">--tests pass</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/review-pr</span>
+              <span class="text-slate-400 dark:text-foreground/40">--self</span>
+            </div>
+          </div>
+          <div class="mt-3 text-xs text-slate-400 dark:text-muted-foreground/60">
+            Codex writes code, Claude Code creates PRs and tests. I architect, review, and correct.
+          </div>
+        </div>
+
+        <!-- Ship -->
+        <div class="group relative rounded-lg border border-slate-600/30 bg-slate-700/40 p-4 transition-colors hover:border-green-400/40 hover:bg-slate-700/60 dark:border-border/50 dark:bg-background/80 dark:hover:border-green-500/30 dark:hover:bg-green-500/5">
+          <div class="mb-3 flex items-center gap-2">
+            <div class="flex h-8 w-8 items-center justify-center rounded-md bg-green-500/20 font-mono text-sm font-bold text-green-400 dark:bg-green-500/10 dark:text-green-500">03</div>
+            <span class="font-mono text-xs font-medium text-slate-300 dark:text-muted-foreground">SHIP</span>
+          </div>
+          <div class="space-y-2 font-mono text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/create-release</span>
+              <span class="text-slate-400 dark:text-foreground/40">--env prod</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/create-doc</span>
+              <span class="text-slate-400 dark:text-foreground/40">runbook</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400">/update-release</span>
+              <span class="text-slate-400 dark:text-foreground/40">--status done</span>
+            </div>
+          </div>
+          <div class="mt-3 text-xs text-slate-400 dark:text-muted-foreground/60">
+            Releases, documentation, and stakeholder updates, all automated.
+          </div>
+        </div>
+      </div>
+
+      <!-- Result bar -->
+      <div class="mt-4 flex items-center justify-between rounded-md border border-green-500/20 bg-green-500/10 px-4 py-2.5 font-mono text-xs">
+        <div class="flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+          <span class="font-medium text-green-400 dark:text-green-400">8 tickets shipped in 3 days</span>
+        </div>
+        <span class="text-slate-400 dark:text-muted-foreground">Traditional estimate: 3-4 weeks</span>
+      </div>
+    </div>
+
+    <!-- Stats inline -->
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div class="rounded-lg border border-border bg-background px-4 py-3 text-center shadow-sm dark:border-border/50 dark:bg-muted/30 dark:shadow-none">
+        <div class="text-2xl font-bold">20+</div>
+        <div class="text-xs text-muted-foreground">Years Experience</div>
+      </div>
+      <div class="rounded-lg border border-border bg-background px-4 py-3 text-center shadow-sm dark:border-border/50 dark:bg-muted/30 dark:shadow-none">
+        <div class="text-2xl font-bold">19</div>
+        <div class="text-xs text-muted-foreground">AI Dev Skills</div>
+      </div>
+      <div class="rounded-lg border border-border bg-background px-4 py-3 text-center shadow-sm dark:border-border/50 dark:bg-muted/30 dark:shadow-none">
+        <div class="text-2xl font-bold">8+</div>
+        <div class="text-xs text-muted-foreground">Languages</div>
+      </div>
+      <div class="rounded-lg border border-border bg-background px-4 py-3 text-center shadow-sm dark:border-border/50 dark:bg-muted/30 dark:shadow-none">
+        <div class="text-2xl font-bold">50+</div>
+        <div class="text-xs text-muted-foreground">Projects Shipped</div>
+      </div>
     </div>
   </section>
-  <section class="flex flex-col gap-y-4">
-    <h2 class="text-2xl font-medium">Latest posts</h2>
+
+  <!-- Interactive Code Editor -->
+  <section id="live-playground" class="section-focal flex flex-col gap-y-4 scroll-mt-20">
+    <div>
+      <div class="group/link flex items-center gap-2">
+        <h2 class="text-2xl font-medium">Live playground</h2>
+        <button class="permalink-copy flex items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400" data-section="live-playground" title="Copy link" aria-label="Copy section link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+      <p class="text-sm text-muted-foreground">A TypeScript function that calls Claude API to generate encounter suggestions based on user context. Click Run to see it in action.</p>
+    </div>
+    <InteractiveCodeEditor client:visible />
+  </section>
+
+  <!-- k6 Load Test Dashboard -->
+  <section id="load-testing" class="section-focal flex flex-col gap-y-4 scroll-mt-20">
+    <div>
+      <div class="group/link flex items-center gap-2">
+        <h2 class="text-2xl font-medium">Load testing dashboard</h2>
+        <button class="permalink-copy flex items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400" data-section="load-testing" title="Copy link" aria-label="Copy section link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+      <p class="text-sm text-muted-foreground">Real-time k6 simulation: 200 virtual users hitting 5 API endpoints with ramp-up, sustained load, and ramp-down phases.</p>
+    </div>
+    <K6Dashboard client:visible />
+  </section>
+
+  <!-- Infrastructure Cost Calculator -->
+  <section id="cost-modeling" class="section-focal flex flex-col gap-y-4 scroll-mt-20">
+    <div>
+      <div class="group/link flex items-center gap-2">
+        <h2 class="text-2xl font-medium">Infrastructure cost modeling</h2>
+        <button class="permalink-copy flex items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400" data-section="cost-modeling" title="Copy link" aria-label="Copy section link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+      <p class="text-sm text-muted-foreground">Interactive cost calculator with MAU-based projections, PERT analysis, and multi-scenario modeling. Built to forecast infrastructure spend across 13+ providers.</p>
+    </div>
+    <CostCalculatorDemo client:visible />
+  </section>
+
+  <!-- Location: Argentina from Space -->
+  <section id="location" class="relative overflow-hidden rounded-xl border scroll-mt-20">
+    <!-- Background image -->
+    <img
+      src="/static/photos/argentina-space.webp"
+      alt="Argentina from space at night"
+      class="h-64 w-full object-cover object-[50%_18%] brightness-75 sm:h-72 md:h-80"
+    />
+
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+    <!-- Location pin on Buenos Aires (upper-right cluster of lights) -->
+    <div class="absolute" style="top: 14%; left: 48%;">
+      <!-- Pulsing ring -->
+      <div class="absolute -inset-3 animate-ping rounded-full bg-green-400/30"></div>
+      <div class="absolute -inset-2 animate-pulse rounded-full bg-green-400/20"></div>
+
+      <!-- Avatar circle -->
+      <div class="relative -ml-8 -mt-8 h-16 w-16 overflow-hidden rounded-full border-2 border-green-400 bg-white shadow-lg shadow-green-400/30 sm:h-20 sm:w-20 sm:-ml-10 sm:-mt-10">
+        <img
+          src="/static/photos/profile.png"
+          alt="Leonardo Otero"
+          class="h-full w-full object-cover"
+        />
+      </div>
+
+      <!-- Pin tail -->
+      <svg class="absolute left-1/2 -ml-[13px] sm:-ml-[13px] top-[52px] sm:top-[64px] h-6 w-6" viewBox="0 0 24 24" fill="none">
+        <path d="M12 0 L6 12 L18 12 Z" fill="#4ade80" opacity="0.9"/>
+      </svg>
+
+      <!-- Label -->
+      <div class="absolute left-1/2 top-[72px] sm:top-[84px] -translate-x-1/2 whitespace-nowrap">
+        <div class="rounded-lg border border-green-400/30 bg-black/80 px-3 py-1.5 text-center backdrop-blur-sm">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-green-400">I'm here</div>
+          <div class="text-xs font-medium text-white">Tigre, Buenos Aires</div>
+          <div class="text-[10px] text-white/60">Argentina</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom info bar -->
+    <div class="absolute inset-x-0 bottom-0 flex items-center justify-between px-4 py-3 sm:px-6">
+      <div class="flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+        <span class="text-xs font-medium text-white/90">Online now</span>
+      </div>
+      <div class="flex items-center gap-2 font-mono text-xs text-white/80">
+        <svg class="h-3.5 w-3.5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span id="local-time" class="tabular-nums">--:--</span>
+        <span class="text-white/50">GMT-3</span>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const el = document.getElementById('local-time')
+      if (!el) return
+      const update = () => {
+        const now = new Date()
+        const opts: Intl.DateTimeFormatOptions = {
+          timeZone: 'America/Argentina/Buenos_Aires',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }
+        el.textContent = now.toLocaleTimeString('en-GB', opts)
+      }
+      update()
+      setInterval(update, 1000)
+    })
+  </script>
+
+  <!-- Latest Posts -->
+  <section id="blog" class="section-focal flex flex-col gap-y-4 scroll-mt-20">
+    <div class="group/link flex items-center gap-2">
+      <h2 class="text-2xl font-medium">Latest posts</h2>
+      <button class="permalink-copy flex items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400" data-section="blog" title="Copy link" aria-label="Copy section link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </button>
+    </div>
     <ul class="flex flex-col gap-y-4">
       {
         blog.map((post) => (
@@ -82,4 +421,163 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
       </Link>
     </div>
   </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section-focal scroll-mt-20">
+    <div class="group/link mb-4 flex items-center gap-2">
+      <h2 class="text-2xl font-medium">Projects</h2>
+      <button class="permalink-copy flex items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400" data-section="projects" title="Copy link" aria-label="Copy section link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </button>
+    </div>
+    <div class="flex flex-col gap-4">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <!-- Clients -->
+  <section class="border-t border-border/50 pt-6">
+    <div class="mb-4 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground/60">Trusted by</div>
+    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+      <a href="https://www.cars.com/" target="_blank" rel="noopener" class="group flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <span class="font-semibold">Cars.com</span>
+        <span class="text-xs text-muted-foreground/50 transition-transform group-hover:translate-x-0.5">&rarr;</span>
+      </a>
+      <span class="hidden text-border sm:inline">|</span>
+      <a href="https://whosclose.com/" target="_blank" rel="noopener" class="group flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <span class="font-semibold">WhosClose</span>
+        <span class="text-xs text-muted-foreground/50 transition-transform group-hover:translate-x-0.5">&rarr;</span>
+      </a>
+      <span class="hidden text-border sm:inline">|</span>
+      <a href="https://www.hsf.net/" target="_blank" rel="noopener" class="group flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <span class="font-semibold">Hispanic Scholarship Fund</span>
+        <span class="text-xs text-muted-foreground/50 transition-transform group-hover:translate-x-0.5">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Back to top button -->
+  <button
+    id="back-to-top"
+    class="fixed bottom-6 right-6 z-50 hidden items-center justify-center rounded-full border border-border/50 bg-background/90 p-3 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-indigo-500/30 hover:shadow-indigo-500/10 active:scale-95"
+    title="Back to top"
+    aria-label="Scroll back to top"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- Toast notification for copied links -->
+  <div id="copy-toast" class="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 opacity-0 transition-all duration-300 translate-y-4">
+    <div class="flex items-center gap-2 rounded-full border border-green-500/30 bg-background/95 px-4 py-2 shadow-lg backdrop-blur-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 text-green-500"><polyline points="20 6 9 17 4 12"/></svg>
+      <span class="font-mono text-xs text-foreground">Link copied!</span>
+    </div>
+  </div>
 </Layout>
+
+<style>
+  .section-focal {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    /* Light mode: soft elevated shadow */
+    box-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.08),
+                0 4px 24px -8px rgba(0, 0, 0, 0.04);
+  }
+
+  :global([data-theme='dark']) .section-focal {
+    /* Dark mode: subtle glow */
+    box-shadow: 0 2px 16px -4px rgba(99, 200, 235, 0.06),
+                0 4px 32px -8px rgba(99, 200, 235, 0.04);
+    border-color: rgba(99, 200, 235, 0.08);
+  }
+
+  .section-focal:hover {
+    transform: scale(1.006);
+    box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.12),
+                0 8px 40px -12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(99, 102, 241, 0.12);
+  }
+
+  :global([data-theme='dark']) .section-focal:hover {
+    box-shadow: 0 4px 24px -6px rgba(99, 200, 235, 0.12),
+                0 8px 48px -12px rgba(99, 200, 235, 0.08);
+    border-color: rgba(99, 200, 235, 0.15);
+  }
+
+  .section-focal:hover h2 {
+    color: var(--color-foreground);
+  }
+
+  #copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Back to top button
+    const backBtn = document.getElementById('back-to-top')
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      })
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          backBtn.classList.remove('hidden')
+          backBtn.classList.add('flex')
+        } else {
+          backBtn.classList.add('hidden')
+          backBtn.classList.remove('flex')
+        }
+      })
+    }
+
+    // Permalink copy
+    const toast = document.getElementById('copy-toast')
+
+    document.querySelectorAll('.permalink-copy').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const section = (btn as HTMLElement).dataset.section
+        if (!section) return
+        const url = `${window.location.origin}${window.location.pathname}#${section}`
+
+        try {
+          await navigator.clipboard.writeText(url)
+        } catch {
+          // Fallback for older browsers
+          const textarea = document.createElement('textarea')
+          textarea.value = url
+          textarea.style.position = 'fixed'
+          textarea.style.opacity = '0'
+          document.body.appendChild(textarea)
+          textarea.select()
+          document.execCommand('copy')
+          document.body.removeChild(textarea)
+        }
+
+        // Show toast
+        if (toast) {
+          toast.classList.add('show')
+          setTimeout(() => toast.classList.remove('show'), 2000)
+        }
+
+        // Brief visual feedback on the button
+        const el = btn as HTMLElement
+        el.style.opacity = '1'
+        el.classList.add('text-green-500')
+        setTimeout(() => {
+          el.style.opacity = ''
+          el.classList.remove('text-green-500')
+        }, 1000)
+      })
+    })
+  })
+</script>

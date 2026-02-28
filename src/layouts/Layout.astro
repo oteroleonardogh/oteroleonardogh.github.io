@@ -2,6 +2,7 @@
 import '@/styles/global.css'
 import '@/styles/typography.css'
 
+import AnimatedBackground from '@/components/AnimatedBackground.astro'
 import Footer from '@/components/Footer.astro'
 import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
@@ -17,13 +18,14 @@ const { class: className } = Astro.props
 
 <!doctype html>
 <html
-  class="bg-background text-foreground scheme-light-dark"
+  class="bg-background text-foreground scheme-light-dark scroll-smooth"
   lang={SITE.locale}
 >
   <Head>
     <slot name="head" />
   </Head>
   <body class="flex h-fit min-h-screen flex-col gap-y-6 font-sans">
+    <AnimatedBackground />
     <header
       class="bg-background/50 sticky top-0 z-50 divide-y backdrop-blur-sm xl:divide-none"
     >

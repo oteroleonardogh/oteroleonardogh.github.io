@@ -120,21 +120,31 @@ const tocSections = await getTOCSections(currentPostId)
       )
     }
 
-    <section class="col-start-2 flex flex-col gap-y-6 text-center">
+    <section class="col-start-2 flex flex-col gap-y-6">
       <div class="flex flex-col">
-        <h1
-          class="mb-2 scroll-mt-31 text-3xl leading-tight font-medium sm:text-4xl"
-          id="post-title"
-        >
-          {post.data.title}
-        </h1>
+        <div class="group/link mb-2 flex items-start gap-2">
+          <h1
+            class="scroll-mt-31 text-3xl leading-tight font-medium sm:text-4xl"
+            id="post-title"
+          >
+            {post.data.title}
+          </h1>
+          <button
+            class="permalink-copy mt-2 flex shrink-0 items-center opacity-0 transition-all duration-200 group-hover/link:opacity-100 text-muted-foreground/30 hover:text-indigo-400"
+            data-href={`/blog/${currentPostId}`}
+            title="Copy link"
+            aria-label="Copy post link"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </button>
+        </div>
 
         <div
-          class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
+          class="text-muted-foreground divide-border mb-4 flex flex-col items-start divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
         >
           {
             authors.length > 0 && (
-              <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+              <div class="flex w-full items-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
                 {authors.map((author) => (
                   <div class="flex items-center gap-x-1.5">
                     <Image
@@ -162,13 +172,13 @@ const tocSections = await getTOCSections(currentPostId)
           }
 
           <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
+            class="flex w-full items-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
           >
             <span>{formatDate(post.data.date)}</span>
           </div>
 
           <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
+            class="flex w-full items-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
           >
             <span>
               {postReadingTime}
@@ -186,14 +196,14 @@ const tocSections = await getTOCSections(currentPostId)
 
           {
             subpostCount > 0 && (
-              <div class="flex w-full items-center justify-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+              <div class="flex w-full items-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
                 <Icon name="lucide:file-text" class="size-3" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
               </div>
             )
           }
         </div>
-        <div class="flex flex-wrap justify-center gap-2">
+        <div class="flex flex-wrap gap-2">
           {
             post.data.tags &&
               post.data.tags.length > 0 &&
@@ -225,6 +235,19 @@ const tocSections = await getTOCSections(currentPostId)
 
     <article class="prose col-start-2 max-w-none">
       <Content />
+
+      <!-- Author seal -->
+      <div class="not-prose mt-10 flex items-center gap-4 border-t border-border/50 pt-6">
+        <img
+          src="/static/photos/ai-avatar.png"
+          alt="Leonardo Otero"
+          class="h-16 w-16 shrink-0 rounded-full border border-border/50 object-cover shadow-sm"
+        />
+        <div>
+          <div class="text-base font-semibold">Leonardo Otero</div>
+          <div class="text-sm text-muted-foreground">Software Architect &middot; AI-Augmented Development</div>
+        </div>
+      </div>
     </article>
 
     {
@@ -296,4 +319,59 @@ const tocSections = await getTOCSections(currentPostId)
 
   document.addEventListener('astro:page-load', ensureKatexStyles)
   document.addEventListener('astro:after-swap', ensureKatexStyles)
+</script>
+
+<!-- Toast notification for copied links -->
+<div id="copy-toast" class="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 opacity-0 transition-all duration-300 translate-y-4">
+  <div class="flex items-center gap-2 rounded-full border border-green-500/30 bg-background/95 px-4 py-2 shadow-lg backdrop-blur-sm">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 text-green-500"><polyline points="20 6 9 17 4 12"/></svg>
+    <span class="font-mono text-xs text-foreground">Link copied!</span>
+  </div>
+</div>
+
+<style>
+  #copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const toast = document.getElementById('copy-toast')
+
+    document.querySelectorAll('.permalink-copy').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const href = (btn as HTMLElement).dataset.href
+        if (!href) return
+        const url = `${window.location.origin}${href}`
+
+        try {
+          await navigator.clipboard.writeText(url)
+        } catch {
+          const textarea = document.createElement('textarea')
+          textarea.value = url
+          textarea.style.position = 'fixed'
+          textarea.style.opacity = '0'
+          document.body.appendChild(textarea)
+          textarea.select()
+          document.execCommand('copy')
+          document.body.removeChild(textarea)
+        }
+
+        if (toast) {
+          toast.classList.add('show')
+          setTimeout(() => toast.classList.remove('show'), 2000)
+        }
+
+        const el = btn as HTMLElement
+        el.style.opacity = '1'
+        el.classList.add('text-green-500')
+        setTimeout(() => {
+          el.style.opacity = ''
+          el.classList.remove('text-green-500')
+        }, 1000)
+      })
+    })
+  })
 </script>

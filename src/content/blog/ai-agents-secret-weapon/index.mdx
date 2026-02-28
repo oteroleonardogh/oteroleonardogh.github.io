@@ -1,0 +1,93 @@
+---
+title: 'AI Agents Are My Secret Weapon (And Here Is How I Built 19 of Them)'
+description: 'Most developers use AI to autocomplete code. I built 19 custom AI agents that handle full development workflows: planning, coding, reviewing, deploying, and documenting. Here is the architecture.'
+date: '2025-03-15'
+authors: ['leonardo']
+tags: ['AI', 'Agents', 'Claude Code', 'Codex', 'Automation']
+draft: false
+---
+
+<div style={{textAlign:'center'}}><img src="/static/photos/blog-ai-agents.jpg" alt="AI agents orchestrating development workflows" style={{maxWidth:'380px',width:'100%',borderRadius:'12px',margin:'0 auto'}} /></div>
+
+## Beyond autocomplete
+
+Most developers interact with AI through chat windows and autocomplete suggestions. That's useful, but it barely scratches the surface. The real power of AI in software development comes from **agents**: autonomous programs that can read context, make decisions, and execute multi-step workflows.
+
+I've built 19 of them. Each one handles a specific part of my development lifecycle. Together, they form a system that lets me ship production code at a speed that would be impossible otherwise.
+
+## What is an AI agent, really?
+
+An AI agent is not just a prompt. It's a structured workflow that:
+
+1. **Reads context** from multiple sources (issue trackers, wikis, repos, error monitoring)
+2. **Reasons** about the task based on that context
+3. **Executes actions** (writes code, creates PRs, generates docs, posts updates)
+4. **Validates results** against defined criteria
+
+The key difference from a simple AI chat? Agents operate on your real systems. They don't just suggest code. They write it, test it, commit it, and open a PR.
+
+## The architecture
+
+Each agent is a markdown file that acts as an instruction set for the AI coding assistant. No framework, no SDK, no runtime dependencies. Just structured text that defines behavior.
+
+```text
+agents/
+├── plan-feature/
+│   └── AGENT.md        # Context gathering, execution steps, validation
+├── ship-release/
+│   └── AGENT.md
+├── review-code/
+│   └── AGENT.md
+└── ...
+```
+
+Each agent definition contains:
+- **Context gathering**: What to read before acting (APIs, git state, project context)
+- **Execution steps**: The ordered workflow to follow
+- **Validation rules**: How to verify the output is correct
+- **Output format**: The exact structure of the result
+- **Safety gates**: Confirmation steps before destructive actions
+
+The beauty of this approach? Adding a new agent takes 30 minutes. No deployment, no infrastructure, no dependency management.
+
+## The 19 agents, grouped by workflow
+
+### Planning and Research
+Agents that digest requirements and context before any code is written. They read issue trackers, parse wiki pages, analyze production errors with stack traces, and generate phased execution plans by combining ticket requirements with codebase analysis.
+
+### Building and Review
+The core development loop. Agents that implement plans step by step (writing code and tests), create pull requests with auto-generated descriptions from diffs, and perform structured code reviews checking for bugs, regressions, security vulnerabilities, and architecture alignment.
+
+### Shipping and Documentation
+Agents that orchestrate the full release cycle: changelog generation, version bumps, deployment coordination, and stakeholder notifications. Plus documentation agents that generate technical docs with architecture diagrams, API specs, and runbooks.
+
+### Maintenance and Operations
+Agents for the tedious but critical work: intelligent merge conflict resolution with full context awareness, post-resolution validation, and a persistent memory system that carries learnings across sessions (conventions, patterns, project-specific gotchas).
+
+## Why constraints make agents work
+
+The reason AI agents are effective in my workflow isn't the AI itself. It's the **constraints** I've built around it.
+
+Every agent has guardrails:
+- The release agent verifies all tests pass before proceeding
+- The PR agent validates that descriptions match the actual diff
+- The review agent follows a checklist that catches OWASP vulnerabilities, N+1 queries, and missing error handling
+- The push agent refuses to force push to protected branches
+
+These constraints come from 20 years of knowing what goes wrong. The AI provides the speed, the experience provides the direction.
+
+## Results
+
+Since deploying this system:
+- **PR creation time**: from 20 minutes to 2 minutes
+- **Release process**: from 1 hour to 5 minutes
+- **Documentation**: from "I'll do it later" to "it's already done"
+- **Code review coverage**: from "when I have time" to "every single PR"
+
+The biggest win isn't speed. It's consistency. Every PR gets reviewed. Every release gets documented. Every ticket gets a proper plan. The things that used to slip through the cracks now happen automatically.
+
+## Getting started
+
+You don't need 19 agents to start. Build one. Pick the most repetitive task in your workflow and turn it into an agent. For most teams, that's either PR creation or release management.
+
+The key insight: AI agents aren't about replacing developers. They're about giving every developer the operational discipline of the best team you've ever worked with. Automatically, every time, without exceptions.
