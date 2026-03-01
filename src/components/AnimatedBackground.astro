@@ -15,7 +15,7 @@
   <!-- ═══ LEFT SIDE ═══ -->
 
   <!-- Sankey Diagram: AI-Controlled Hydroponics -->
-  <svg class="ab-sankey absolute left-4 top-[15%] h-[340px] w-[220px] opacity-[0.09]" viewBox="0 0 220 340" fill="none">
+  <svg class="ab-sankey absolute left-4 top-[15%] h-[340px] w-[220px] opacity-[0.18]" viewBox="0 0 220 340" fill="none">
     <!-- Nodes -->
     <rect x="10" y="10" width="80" height="28" rx="6" stroke="currentColor" stroke-width="1.2"/>
     <text x="50" y="28" text-anchor="middle" fill="currentColor" font-size="8" font-family="monospace">Sensors</text>
@@ -52,24 +52,76 @@
     </circle>
   </svg>
 
-  <!-- Robot following path (left) -->
-  <svg class="ab-robot absolute left-[140px] top-[58%] h-[200px] w-[120px] opacity-[0.08]" viewBox="0 0 120 200" fill="none">
-    <path d="M10,180 C10,100 60,120 60,40 C60,0 110,20 110,80 C110,140 60,100 60,180" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
-    <!-- Robot icon -->
-    <g opacity="0.6">
-      <animateMotion dur="8s" repeatCount="indefinite" path="M10,180 C10,100 60,120 60,40 C60,0 110,20 110,80 C110,140 60,100 60,180"/>
-      <rect x="-8" y="-10" width="16" height="14" rx="3" stroke="currentColor" stroke-width="1.2" fill="none"/>
-      <circle cx="-3" cy="-4" r="1.5" fill="currentColor"/>
-      <circle cx="3" cy="-4" r="1.5" fill="currentColor"/>
-      <line x1="-4" y1="0" x2="4" y2="0" stroke="currentColor" stroke-width="0.8"/>
-      <line x1="0" y1="4" x2="0" y2="8" stroke="currentColor" stroke-width="1"/>
-      <line x1="-5" y1="6" x2="-8" y2="2" stroke="currentColor" stroke-width="0.8"/>
-      <line x1="5" y1="6" x2="8" y2="2" stroke="currentColor" stroke-width="0.8"/>
+  <!-- Robot following path with waypoints (left) -->
+  <svg class="ab-robot absolute left-[100px] top-[52%] h-[280px] w-[160px] opacity-[0.18]" viewBox="0 0 160 280" fill="none">
+    <!-- Path (green) -->
+    <path d="M20,260 C20,200 80,220 80,160 C80,100 140,120 140,60 C140,30 100,10 60,30 C30,45 20,80 40,100" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+    <!-- Waypoint dots -->
+    <circle cx="20" cy="260" r="4" fill="#22c55e" opacity="0.4"/>
+    <circle cx="80" cy="160" r="4" fill="#22c55e" opacity="0.4"/>
+    <circle cx="140" cy="60" r="4" fill="#22c55e" opacity="0.4"/>
+    <circle cx="40" cy="100" r="4" fill="#22c55e" opacity="0.4"/>
+    <!-- Waypoint labels -->
+    <text x="30" y="264" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.6">START</text>
+    <text x="88" y="164" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.5">WP-1</text>
+    <text x="115" y="54" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.5">WP-2</text>
+    <text x="48" y="104" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.6">TARGET</text>
+    <!-- Waypoint rings -->
+    <circle cx="20" cy="260" r="7" stroke="#22c55e" stroke-width="0.5" fill="none" opacity="0.25">
+      <animate attributeName="r" values="5;9;5" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="40" cy="100" r="7" stroke="#22c55e" stroke-width="0.5" fill="none" opacity="0.25">
+      <animate attributeName="r" values="5;9;5" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Robot icon (blue) -->
+    <g>
+      <animateMotion dur="10s" repeatCount="indefinite" path="M20,260 C20,200 80,220 80,160 C80,100 140,120 140,60 C140,30 100,10 60,30 C30,45 20,80 40,100"/>
+      <rect x="-10" y="-12" width="20" height="17" rx="4" stroke="#3b82f6" stroke-width="1.5" fill="#3b82f6" fill-opacity="0.15"/>
+      <!-- Eyes -->
+      <circle cx="-4" cy="-5" r="2" fill="#3b82f6" opacity="0.9"/>
+      <circle cx="4" cy="-5" r="2" fill="#3b82f6" opacity="0.9"/>
+      <!-- Eye glow -->
+      <circle cx="-4" cy="-5" r="3" fill="#60a5fa" opacity="0.3"/>
+      <circle cx="4" cy="-5" r="3" fill="#60a5fa" opacity="0.3"/>
+      <!-- Mouth -->
+      <line x1="-4" y1="1" x2="4" y2="1" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+      <!-- Antenna -->
+      <line x1="0" y1="-12" x2="0" y2="-18" stroke="#3b82f6" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="0" cy="-19" r="1.5" fill="#60a5fa" opacity="0.8">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Body -->
+      <line x1="0" y1="5" x2="0" y2="12" stroke="#3b82f6" stroke-width="1.2" opacity="0.5"/>
+      <line x1="-6" y1="8" x2="-10" y2="3" stroke="#3b82f6" stroke-width="1" opacity="0.4"/>
+      <line x1="6" y1="8" x2="10" y2="3" stroke="#3b82f6" stroke-width="1" opacity="0.4"/>
     </g>
   </svg>
 
+  <!-- Robot console (left, near Sankey diagram at top) -->
+  <div class="ab-console absolute left-[230px] top-[17%] w-[100px] rounded border border-green-500/30 bg-black/40 p-2 font-mono text-[7px] opacity-[0.28] backdrop-blur-sm">
+    <div class="mb-1 text-blue-400 font-bold text-[8px]">ROBOT-01</div>
+    <div class="text-green-400/90">
+      <span class="ab-console-line-1">Moving to WP-1...</span>
+    </div>
+    <div class="text-green-400/80">
+      <span class="ab-console-line-2">dist: 42.3m</span>
+    </div>
+    <div class="text-green-400/70">
+      <span class="ab-console-line-3">heading: 315°</span>
+    </div>
+    <div class="mt-0.5 text-blue-300/70">
+      <span class="ab-console-line-4">status: OK</span>
+    </div>
+    <div class="mt-1 flex gap-1 items-center">
+      <span class="h-1.5 w-1.5 rounded-full bg-green-400/80 animate-pulse"></span>
+      <span class="text-green-400/60">online</span>
+    </div>
+  </div>
+
   <!-- Mini chart (left, bottom) -->
-  <svg class="ab-chart-1 absolute left-8 bottom-[25%] h-[60px] w-[100px] opacity-[0.08]" viewBox="0 0 100 60" fill="none">
+  <svg class="ab-chart-1 absolute left-8 bottom-[25%] h-[60px] w-[100px] opacity-[0.16]" viewBox="0 0 100 60" fill="none">
     <rect x="0" y="0" width="100" height="60" rx="6" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
     <polyline points="5,50 15,42 25,45 35,30 45,35 55,20 65,25 75,15 85,18 95,8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
     <text x="5" y="10" fill="currentColor" font-size="5" font-family="monospace" opacity="0.5">BTC/USD</text>
@@ -78,7 +130,7 @@
   <!-- ═══ RIGHT SIDE ═══ -->
 
   <!-- Market Ticker (right side, scrolling up) -->
-  <div class="ab-ticker absolute right-6 top-[10%] flex flex-col gap-2.5 opacity-[0.16] font-mono text-[9px]">
+  <div class="ab-ticker absolute right-6 top-[10%] flex flex-col gap-2.5 opacity-[0.22] font-mono text-[9px]">
     <div class="ab-ticker-item flex items-center gap-1.5">
       <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="#A2AAAD"><path d="M18.7 19.5c-1.1 1.4-2.3 2.8-4 2.8s-2.2-.9-4.2-.9-2.6.9-4.2.9-2.7-1.3-3.8-2.8C1 17.2-.2 13.1 1.3 10.4c.7-1.4 2-2.3 3.5-2.3 1.7 0 2.7.9 4.2.9s1.8-.9 4.2-.9c1.2 0 2.7.5 3.6 1.6-3.2 1.7-2.6 6.2.6 7.4-.7 1.6-1.1 2.3-1.7 3.1zM15.7 2.5c-2.5.2-4.4 2.7-4.1 4.9 2.3.2 4.4-2.4 4.1-4.9z"/></svg>
       AAPL <span class="text-green-400">▲2.4%</span> <span class="text-green-400">$198</span>
@@ -114,7 +166,7 @@
   </div>
 
   <!-- Mini bar chart (right) -->
-  <svg class="ab-chart-2 absolute right-12 top-[45%] h-[70px] w-[90px] opacity-[0.08]" viewBox="0 0 90 70" fill="none">
+  <svg class="ab-chart-2 absolute right-12 top-[45%] h-[70px] w-[90px] opacity-[0.16]" viewBox="0 0 90 70" fill="none">
     <rect x="0" y="0" width="90" height="70" rx="6" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
     <text x="5" y="10" fill="currentColor" font-size="5" font-family="monospace" opacity="0.5">Revenue Q4</text>
     <rect x="8" y="45" width="8" height="18" rx="1" fill="currentColor" opacity="0.2"/>
@@ -125,20 +177,76 @@
     <rect x="68" y="15" width="8" height="48" rx="1" fill="currentColor" opacity="0.4"/>
   </svg>
 
-  <!-- Robot following path (right) -->
-  <svg class="ab-robot-2 absolute right-[60px] top-[62%] h-[180px] w-[100px] opacity-[0.08]" viewBox="0 0 100 180" fill="none">
-    <path d="M90,10 C90,60 10,40 10,90 C10,140 90,120 90,170" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
-    <g opacity="0.6">
-      <animateMotion dur="10s" repeatCount="indefinite" path="M90,10 C90,60 10,40 10,90 C10,140 90,120 90,170"/>
-      <rect x="-7" y="-9" width="14" height="12" rx="3" stroke="currentColor" stroke-width="1" fill="none"/>
-      <circle cx="-2.5" cy="-4" r="1.2" fill="currentColor"/>
-      <circle cx="2.5" cy="-4" r="1.2" fill="currentColor"/>
-      <line x1="-3" y1="-0.5" x2="3" y2="-0.5" stroke="currentColor" stroke-width="0.7"/>
+  <!-- Robot following path with waypoints (right) -->
+  <svg class="ab-robot-2 absolute right-[40px] top-[58%] h-[260px] w-[140px] opacity-[0.20]" viewBox="0 0 140 260" fill="none">
+    <!-- Path (green) -->
+    <path d="M120,20 C120,70 30,50 30,110 C30,170 120,150 120,210 C120,240 80,250 50,240" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+    <!-- Waypoint dots -->
+    <circle cx="120" cy="20" r="4" fill="#22c55e" opacity="0.4"/>
+    <circle cx="30" cy="110" r="4" fill="#22c55e" opacity="0.4"/>
+    <circle cx="120" cy="210" r="4" fill="#22c55e" opacity="0.4"/>
+    <circle cx="50" cy="240" r="4" fill="#22c55e" opacity="0.4"/>
+    <!-- Waypoint labels -->
+    <text x="98" y="16" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.6">INIT</text>
+    <text x="38" y="114" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.5">CP-1</text>
+    <text x="98" y="206" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.5">CP-2</text>
+    <text x="56" y="244" fill="#22c55e" font-size="6" font-family="monospace" opacity="0.6">DEST</text>
+    <!-- Waypoint rings -->
+    <circle cx="120" cy="20" r="7" stroke="#22c55e" stroke-width="0.5" fill="none" opacity="0.25">
+      <animate attributeName="r" values="5;9;5" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="240" r="7" stroke="#22c55e" stroke-width="0.5" fill="none" opacity="0.25">
+      <animate attributeName="r" values="5;9;5" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Robot icon (blue) -->
+    <g>
+      <animateMotion dur="12s" repeatCount="indefinite" path="M120,20 C120,70 30,50 30,110 C30,170 120,150 120,210 C120,240 80,250 50,240"/>
+      <rect x="-10" y="-12" width="20" height="17" rx="4" stroke="#3b82f6" stroke-width="1.5" fill="#3b82f6" fill-opacity="0.15"/>
+      <!-- Eyes -->
+      <circle cx="-4" cy="-5" r="2" fill="#3b82f6" opacity="0.9"/>
+      <circle cx="4" cy="-5" r="2" fill="#3b82f6" opacity="0.9"/>
+      <!-- Eye glow -->
+      <circle cx="-4" cy="-5" r="3" fill="#60a5fa" opacity="0.3"/>
+      <circle cx="4" cy="-5" r="3" fill="#60a5fa" opacity="0.3"/>
+      <!-- Mouth -->
+      <line x1="-4" y1="1" x2="4" y2="1" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+      <!-- Antenna -->
+      <line x1="0" y1="-12" x2="0" y2="-18" stroke="#3b82f6" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="0" cy="-19" r="1.5" fill="#60a5fa" opacity="0.8">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Body -->
+      <line x1="0" y1="5" x2="0" y2="12" stroke="#3b82f6" stroke-width="1.2" opacity="0.5"/>
+      <line x1="-6" y1="8" x2="-10" y2="3" stroke="#3b82f6" stroke-width="1" opacity="0.4"/>
+      <line x1="6" y1="8" x2="10" y2="3" stroke="#3b82f6" stroke-width="1" opacity="0.4"/>
     </g>
   </svg>
 
+  <!-- Robot console (right, near robot) -->
+  <div class="ab-console-2 absolute right-[8px] top-[60%] w-[100px] rounded border border-green-500/30 bg-black/40 p-2 font-mono text-[7px] opacity-[0.25] backdrop-blur-sm">
+    <div class="mb-1 text-blue-400 font-bold text-[8px]">ROBOT-02</div>
+    <div class="text-green-400/90">
+      <span>Scanning CP-1...</span>
+    </div>
+    <div class="text-green-400/80">
+      <span>vel: 1.2 m/s</span>
+    </div>
+    <div class="text-green-400/70">
+      <span>bearing: 142°</span>
+    </div>
+    <div class="mt-0.5 text-amber-300/70">
+      <span>battery: 78%</span>
+    </div>
+    <div class="mt-1 flex gap-1 items-center">
+      <span class="h-1.5 w-1.5 rounded-full bg-green-400/80 animate-pulse"></span>
+      <span class="text-green-400/60">active</span>
+    </div>
+  </div>
+
   <!-- Candlestick mini chart (right bottom) -->
-  <svg class="ab-chart-3 absolute right-8 bottom-[18%] h-[65px] w-[110px] opacity-[0.07]" viewBox="0 0 110 65" fill="none">
+  <svg class="ab-chart-3 absolute right-8 bottom-[18%] h-[65px] w-[110px] opacity-[0.15]" viewBox="0 0 110 65" fill="none">
     <rect x="0" y="0" width="110" height="65" rx="6" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
     <text x="5" y="10" fill="currentColor" font-size="5" font-family="monospace" opacity="0.5">ETH/USDT</text>
     <!-- Candlesticks -->
@@ -161,51 +269,51 @@
   </svg>
 
   <!-- ═══ FLOATING AI TERMS ═══ -->
-  <div class="ab-term ab-float-1 absolute left-[3%] top-[42%] font-mono text-[10px] font-bold tracking-widest opacity-[0.09]">
+  <div class="ab-term ab-float-1 absolute left-[3%] top-[42%] font-mono text-[10px] font-bold tracking-widest opacity-[0.16]">
     RAG
     <span class="block text-[7px] font-normal tracking-normal opacity-60">Retrieval Augmented Generation</span>
   </div>
 
-  <div class="ab-term ab-float-2 absolute right-[4%] top-[32%] font-mono text-[9px] font-semibold tracking-wider opacity-[0.08]">
+  <div class="ab-term ab-float-2 absolute right-[4%] top-[32%] font-mono text-[9px] font-semibold tracking-wider opacity-[0.14]">
     Vector Search
   </div>
 
-  <div class="ab-term ab-float-3 absolute left-[2%] top-[72%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.08]">
+  <div class="ab-term ab-float-3 absolute left-[2%] top-[72%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.14]">
     Embeddings
   </div>
 
-  <div class="ab-term ab-float-4 absolute right-[3%] top-[78%] font-mono text-[10px] font-bold tracking-widest opacity-[0.08]">
+  <div class="ab-term ab-float-4 absolute right-[3%] top-[78%] font-mono text-[10px] font-bold tracking-widest opacity-[0.15]">
     LLM
     <span class="block text-[7px] font-normal tracking-normal opacity-60">Large Language Model</span>
   </div>
 
-  <div class="ab-term ab-float-5 absolute left-[5%] top-[88%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.07]">
+  <div class="ab-term ab-float-5 absolute left-[5%] top-[88%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.13]">
     Fine-tuning
   </div>
 
-  <div class="ab-term ab-float-6 absolute right-[5%] top-[88%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.07]">
+  <div class="ab-term ab-float-6 absolute right-[5%] top-[88%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.13]">
     Inference
   </div>
 
-  <div class="ab-term ab-float-7 absolute left-[4%] top-[55%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.07]">
+  <div class="ab-term ab-float-7 absolute left-[4%] top-[55%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.13]">
     Tokenization
   </div>
 
-  <div class="ab-term ab-float-8 absolute right-[2%] top-[55%] font-mono text-[9px] font-bold tracking-widest opacity-[0.08]">
+  <div class="ab-term ab-float-8 absolute right-[2%] top-[55%] font-mono text-[9px] font-bold tracking-widest opacity-[0.15]">
     pgvector
     <span class="block text-[7px] font-normal tracking-normal opacity-60">Similarity Search</span>
   </div>
 
-  <div class="ab-term ab-float-9 absolute left-[6%] top-[30%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.07]">
+  <div class="ab-term ab-float-9 absolute left-[6%] top-[30%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.13]">
     Prompt Engineering
   </div>
 
-  <div class="ab-term ab-float-10 absolute right-[6%] top-[22%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.07]">
+  <div class="ab-term ab-float-10 absolute right-[6%] top-[22%] font-mono text-[8px] font-semibold tracking-wider opacity-[0.13]">
     RLHF
   </div>
 
   <!-- Hydroponics data readouts -->
-  <div class="ab-hydro ab-float-11 absolute left-[1%] top-[82%] font-mono text-[8px] opacity-[0.07]">
+  <div class="ab-hydro ab-float-11 absolute left-[1%] top-[82%] font-mono text-[8px] opacity-[0.15]">
     <div class="mb-0.5 font-bold tracking-wider">HYDRO-CTRL</div>
     <div>pH: 6.2 <span class="text-green-500">OK</span></div>
     <div>EC: 1.8 mS/cm</div>
@@ -213,7 +321,7 @@
     <div>Humidity: 68%</div>
   </div>
 
-  <div class="ab-hydro ab-float-12 absolute right-[1%] top-[92%] font-mono text-[8px] opacity-[0.07]">
+  <div class="ab-hydro ab-float-12 absolute right-[1%] top-[92%] font-mono text-[8px] opacity-[0.15]">
     <div class="mb-0.5 font-bold tracking-wider">GROWTH-AI</div>
     <div>Day: 14/21</div>
     <div>Height: 8.2cm</div>
@@ -245,12 +353,12 @@
   }
 
   @keyframes ab-pulse {
-    0%, 100% { opacity: 0.04; }
-    50% { opacity: 0.08; }
+    0%, 100% { opacity: 0.12; }
+    50% { opacity: 0.22; }
   }
 
   @keyframes ab-fade-in-out {
-    0%, 100% { opacity: 0; }
+    0%, 100% { opacity: 0.05; }
     20%, 80% { opacity: 1; }
   }
 
@@ -275,6 +383,9 @@
   .ab-chart-2 { animation: ab-fade-in-out 12s ease-in-out infinite 4s; }
   .ab-chart-3 { animation: ab-fade-in-out 14s ease-in-out infinite 7s; }
 
+  .ab-console { animation: ab-drift 15s ease-in-out infinite 1s; }
+  .ab-console-2 { animation: ab-drift 12s ease-in-out infinite 4s; }
+
   .ab-ticker {
     animation: ab-ticker-scroll 30s linear infinite;
   }
@@ -291,7 +402,7 @@
 
   /* Scale down on medium-wide screens */
   @media (min-width: 1280px) and (max-width: 1919px) {
-    #ai-background { opacity: 0.8; }
+    #ai-background { opacity: 0.9; }
     .ab-sankey { left: 0; }
   }
 </style>
